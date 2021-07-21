@@ -13,7 +13,7 @@ $user = $bankUser[0]['user'];
 $mobile = $bankUser[0]['mobile'];
 if(!empty($_POST['account_holder']) && $_POST['account_holder']) {	
 	$invoice->saveBankDetails($_POST);
-	header("Location:index.php");
+	header("Location:invoice_details.php");
 }
 ?>
 <title>Invoice</title>

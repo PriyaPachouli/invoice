@@ -3,45 +3,59 @@ session_start();
 include('header.php');
 include 'Invoice.php';
 $invoice = new Invoice();
-$invoice->checkLoggedIn();
+$sd =mktime();
+
+if (!empty($_POST['username']) && !empty($_POST['password'])) {
+	$selectuser = $invoice->loginUsers($_POST['username'], $_POST['password']);
+	if(!empty($selectuser)) {
+		$_SESSION['userid'] = $selectuser[0]['id'];
+		$_SESSION['username'] = $selectuser[0]['username'];
+		$_SESSION['password'] = $selectuser[0]['password'];
+		header("Location:invoice_details.php");
+	}
+
+elseif(!empty($_POST['username']) && $_POST['username']) {	
+	$invoice->saveLoginUsers($_POST);
+    //print_r($_POST['username']);
+    //exit;
+    $_SESSION["loggedin"] = true;
+    $_SESSION["username"] = $_POST['username'];
+    $_SESSION["password"] = $_POST['password'];
+    echo('User created Successfully! Please Login Again!');
+}
+}
+
 ?>
 <title>Invoice</title>
 <script src="js/invoice.js"></script>
 <link href="css/style.css" rel="stylesheet">
-	<div class="container">		
-	  <h2 class="title">Invoice List</h2>
-	  <?php include('menu.php');?>			  
-      <table id="data-table" class="table table-condensed table-striped">
-        <thead>
-          <tr>
-            <th>Invoice No.</th>
-            <th>Create Date</th>
-            <th>Customer Name</th>
-            <th>Invoice Total</th>
-            <th>Print</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <?php		
-		$invoiceList = $invoice->getInvoiceList();
-
-        foreach($invoiceList as $invoiceDetails){
-        $invoiceClient = $invoice->getInvoiceDetails($invoiceDetails['client_address']);
-
-            echo '
-              <tr>
-                <td>'.$invoiceDetails["invoice_no"].'</td>
-                <td>'.$invoiceDetails["invoice_date"].'</td>
-                <td>'.$invoiceClient[0]["client_name"].'</td>
-                <td>'.$invoiceDetails["order_total_after_tax"].'</td>
-                <td><a href="choose_invoice.php?invoice_id='.$invoiceDetails["order_id"].'" title="Print Invoice"><span class="glyphicon glyphicon-print"></span></a></td>
-                <td><a href="edit_invoice.php?update_id='.$invoiceDetails["order_id"].'"  title="Edit Invoice"><span class="glyphicon glyphicon-edit"></span></a></td>
-                <td><a href="#" id="'.$invoiceDetails["order_id"].'" class="deleteInvoice"  title="Delete Invoice"><span class="glyphicon glyphicon-remove"></span></a></td>
-              </tr>
-            ';
-        }       
-        ?>
-      </table>
+<style>
+h2{
+    text-align: center;
+}
+</style>
+<div class="container">
+    <div class="wrapper">	
+	  <h2 class="title">Invoice Login</h2>
+      <form action="" id="invoice-form" method="post" class="invoice-form" role="form">
+      <input value="<?php echo $sd ?>" type="hidden" id="users_insert" name="users_insert" >
+			<input value="<?php echo $sd ?>" type="hidden" id="users_update" name="users_update" >
+        <div class="row">
+            <div class="col-xs-4">
+      <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" id="username" class="form-control" required>
+      </div>
+      <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" id="password" class="form-control" required>
+      </div>
+      <div class="form-group">
+			<input data-loading-text="Saving User..." type="submit" name="login" id="login" value="Login" class="btn btn-success submit_btn invoice-save-btm">
+	    </div>
+            </div>
+        </div>
+      </form>
+    </div>
 </div>
 <?php include('footer.php');?>

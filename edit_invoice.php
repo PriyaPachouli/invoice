@@ -7,7 +7,7 @@ $invoice->checkLoggedIn();
 $ud =mktime();
 if(!empty($_POST['client_name']) && $_POST['client_name'] && !empty($_POST['invoiceId']) && $_POST['invoiceId']) {	
 	$invoice->updateInvoice($_POST);	
-	header("Location:index.php");
+	header("Location:invoice_details.php");
 }
 if(!empty($_GET['update_id']) && $_GET['update_id']) {
 	//$invoiceUser = $invoice->getInvoiceUser($_GET['update_id']);

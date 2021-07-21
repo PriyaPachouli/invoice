@@ -3,7 +3,7 @@
 	<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Invoice
 	<span class="caret"></span></button>
 	<ul class="dropdown-menu">
-		<li><a href="index.php">Invoice List</a></li>
+		<li><a href="invoice_details.php">Invoice List</a></li>
 		<li><a href="create_invoice.php">Create Invoice</a></li>				  
 	</ul>
 </li>
