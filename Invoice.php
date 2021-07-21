@@ -1,9 +1,16 @@
 <?php
 class Invoice{
-	private $host  = 'localhost';
+	private $host  = 'remotemysql.com';
+    private $user  = '8cgpXtxGHT';
+    private $password   = "APdRYndJOR";
+    private $database  = "8cgpXtxGHT";   
+
+//local db
+	/*private $host  = '127.0.0.1';
     private $user  = 'root';
     private $password   = "";
-    private $database  = "my_invoice";   
+    private $database  = "my_invoice";  */
+
 	private $invoiceUserTable = 'invoice_user_details';	
     private $invoiceClientTable = 'invoice_client_details';
 	private $invoiceServiceTable = 'invoice_service_details';
